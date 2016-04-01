@@ -1,6 +1,7 @@
 package com.dev;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -49,6 +50,7 @@ public class GameState {
         if (possibleRoutes.isEmpty()) {
             System.out.println("No possible routes");
         } else {
+            Collections.sort(possibleRoutes);
             for (Route route : possibleRoutes) {
                 System.out.println(route);
             }

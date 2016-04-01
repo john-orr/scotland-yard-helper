@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by YouthfulDrake on 31/03/2016.
  */
-public class Route {
+public class Route implements Comparable<Route> {
 
     List<Location> stops;
 
@@ -46,5 +46,10 @@ public class Route {
             }
         }
         return stringBuilder.toString();
+    }
+
+    @Override
+    public int compareTo(Route that) {
+        return this.getFinalPosition().compareTo(that.getFinalPosition());
     }
 }

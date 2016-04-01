@@ -6,11 +6,11 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        args = new String[] {"1", "U", "T", "B", "U"};
+        args = new String[]{"1", "U", "T"};
         if (args.length < 2) {
             throw new IllegalArgumentException("You must supply a starting position and at least one move");
         }
-        
+
         Location startingLocation;
         try {
             startingLocation = Location.findByValue(Integer.parseInt(args[0]));
