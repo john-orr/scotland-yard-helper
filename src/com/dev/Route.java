@@ -14,6 +14,9 @@ public class Route implements Comparable<Route> {
         stops = new ArrayList<>();
     }
 
+    /**
+     * Copy constructor for the Route class
+     */
     public Route(Route source) {
         this();
         for (Location location : source.stops) {
@@ -21,7 +24,7 @@ public class Route implements Comparable<Route> {
         }
     }
 
-    private Location getFinalPosition() {
+    public Location getFinalPosition() {
         return stops.get(stops.size() - 1);
     }
 

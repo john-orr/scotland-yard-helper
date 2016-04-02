@@ -6,7 +6,6 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        args = new String[]{"1", "U", "T"};
         if (args.length < 2) {
             throw new IllegalArgumentException("You must supply a starting position and at least one move");
         }
@@ -23,8 +22,6 @@ public class Main {
             moves.add(Move.findByVal(args[i]));
         }
 
-        GameState gameState = new GameState(startingLocation, moves);
-        gameState.playOut();
-        gameState.printResult();
+        Tracker.track(startingLocation, moves);
     }
 }

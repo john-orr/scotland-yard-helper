@@ -7,7 +7,8 @@ public enum Move {
 
     TAXI("T"),
     BUS("B"),
-    UNDERGROUND("U");
+    UNDERGROUND("U"),
+    BLACK("X");
 
     private String val;
 

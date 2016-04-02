@@ -1,9 +1,6 @@
 package com.dev;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by YouthfulDrake on 31/03/2016.
@@ -124,14 +121,14 @@ public enum Location {
     _105(105, Arrays.asList(89, 90, 91, 106, 108), Arrays.asList(72, 87, 89, 107, 108)),
     _106(106, Arrays.asList(105, 107)),
     _107(107, Arrays.asList(91, 106, 119), Arrays.asList(72, 105, 161)),
-    _108(108, Arrays.asList(105, 117, 119), Arrays.asList(105, 116, 135)),
+    _108(108, Arrays.asList(105, 117, 119), Arrays.asList(105, 116, 135), 115),
     _109(109, Arrays.asList(96, 97, 110, 124)),
     _110(110, Arrays.asList(98, 99, 109, 111)),
     _111(111, Arrays.asList(110, 112, 124), Arrays.asList(100, 124), Arrays.asList(67, 79, 153, 163)),
     _112(112, Arrays.asList(99, 100, 111, 125)),
     _113(113, Arrays.asList(100, 114, 125)),
     _114(114, Arrays.asList(101, 113, 115, 126, 131, 132)),
-    _115(115, Arrays.asList(102, 114, 126, 127)),
+    _115(115, Arrays.asList(102, 114, 126, 127), 108, 157),
     _116(116, Arrays.asList(104, 117, 118, 127), Arrays.asList(86, 108, 127, 142)),
     _117(117, Arrays.asList(88, 108, 116, 129)),
     _118(118, Arrays.asList(116, 129, 134, 142)),
@@ -144,7 +141,8 @@ public enum Location {
     _125(125, Arrays.asList(112, 113, 131)),
     _126(126, Arrays.asList(114, 115, 127, 140)),
     _127(127, Arrays.asList(115, 116, 126, 133, 134), Arrays.asList(102, 116, 133)),
-    _128(128, Arrays.asList(142, 143, 160, 172, 188), Arrays.asList(135, 142, 161, 187, 199), Arrays.asList(89, 140, 185)),
+    _128(128, Arrays.asList(142, 143, 160, 172, 188), Arrays.asList(135, 142, 161, 187, 199),
+            Arrays.asList(89, 140, 185)),
     _129(129, Arrays.asList(117, 118, 135, 142, 143)),
     _130(130, Arrays.asList(124, 131, 139)),
     _131(131, Arrays.asList(114, 125, 130)),
@@ -156,7 +154,8 @@ public enum Location {
     _137(137, Arrays.asList(123, 147)),
     _138(138, Arrays.asList(124, 150, 152)),
     _139(138, Arrays.asList(130, 140, 153, 154)),
-    _140(140, Arrays.asList(126, 132, 133, 139, 154, 156), Arrays.asList(82, 133, 154, 156), Arrays.asList(89, 128, 153)),
+    _140(140, Arrays.asList(126, 132, 133, 139, 154, 156), Arrays.asList(82, 133, 154, 156),
+            Arrays.asList(89, 128, 153)),
     _141(141, Arrays.asList(133, 134, 142, 158)),
     _142(142, Arrays.asList(118, 128, 129, 134, 141, 143, 158), Arrays.asList(116, 128, 157)),
     _143(143, Arrays.asList(128, 129, 135, 142, 160)),
@@ -169,11 +168,12 @@ public enum Location {
     _150(150, Arrays.asList(138, 149, 151)),
     _151(151, Arrays.asList(150, 152, 165, 166)),
     _152(152, Arrays.asList(138, 151, 153)),
-    _153(153, Arrays.asList(139, 152, 154, 166, 167), Arrays.asList(124, 154, 180, 184), Arrays.asList(111, 140, 163, 185)),
+    _153(153, Arrays.asList(139, 152, 154, 166, 167), Arrays.asList(124, 154, 180, 184),
+            Arrays.asList(111, 140, 163, 185)),
     _154(154, Arrays.asList(139, 140, 153, 155), Arrays.asList(140, 153, 156)),
     _155(155, Arrays.asList(154, 156, 167, 168)),
     _156(156, Arrays.asList(140, 155, 157, 169), Arrays.asList(140, 154, 157, 184)),
-    _157(157, Arrays.asList(156, 158, 170), Arrays.asList(133, 142, 156, 185)),
+    _157(157, Arrays.asList(156, 158, 170), Arrays.asList(133, 142, 156, 185), 115, 194),
     _158(158, Arrays.asList(141, 142, 157, 159)),
     _159(159, Arrays.asList(158, 170, 172, 186, 198)),
     _160(160, Arrays.asList(128, 143, 161, 173)),
@@ -210,7 +210,7 @@ public enum Location {
     _191(191, Arrays.asList(178, 179, 190, 192), Arrays.asList(163, 165, 190)),
     _192(192, Arrays.asList(190, 191, 194)),
     _193(193, Arrays.asList(180, 181, 194)),
-    _194(194, Arrays.asList(192, 193, 195)),
+    _194(194, Arrays.asList(192, 193, 195), 157),
     _195(195, Arrays.asList(182, 194, 197)),
     _196(196, Arrays.asList(183, 184, 197)),
     _197(197, Arrays.asList(184, 195, 196)),
@@ -221,13 +221,26 @@ public enum Location {
     private List<Integer> taxiMoves;
     private List<Integer> busMoves;
     private List<Integer> undergroundMoves;
+    private List<Integer> otherMoves;
 
-    @SafeVarargs
-    Location(int numVal, List<Integer>... possibleNextLocations) {
+    Location(int numVal, List<Integer> taxiOptions, int... otherOptions) {
+        this(numVal, taxiOptions, new ArrayList<Integer>(), new ArrayList<Integer>(), otherOptions);
+    }
+
+    Location(int numVal, List<Integer> taxiOptions, List<Integer> busOptions, int... otherOptions) {
+        this(numVal, taxiOptions, busOptions, new ArrayList<Integer>(), otherOptions);
+    }
+
+    Location(int numVal, List<Integer> taxiOptions, List<Integer> busOptions, List<Integer> undergroundOptions,
+            int... otherOptions) {
         this.numVal = numVal;
-        taxiMoves = possibleNextLocations.length > 0 ? possibleNextLocations[0] : new ArrayList<Integer>();
-        busMoves = possibleNextLocations.length > 1 ? possibleNextLocations[1] : new ArrayList<Integer>();
-        undergroundMoves = possibleNextLocations.length > 2 ? possibleNextLocations[2] : new ArrayList<Integer>();
+        taxiMoves = taxiOptions;
+        busMoves = busOptions;
+        undergroundMoves = undergroundOptions;
+        otherMoves = new ArrayList<>();
+        for (int otherOption : otherOptions) {
+            otherMoves.add(otherOption);
+        }
     }
 
     public static Location findByValue(Integer integer) {
@@ -252,8 +265,20 @@ public enum Location {
             case UNDERGROUND:
                 integerLocationList = undergroundMoves;
                 break;
+            case BLACK:
+                integerLocationList = getAllPossibleMoves();
+                break;
         }
         return convertToLocationList(integerLocationList);
+    }
+
+    private List<Integer> getAllPossibleMoves() {
+        Set<Integer> allPossibleMoves = new HashSet<>();
+        allPossibleMoves.addAll(taxiMoves);
+        allPossibleMoves.addAll(busMoves);
+        allPossibleMoves.addAll(undergroundMoves);
+        allPossibleMoves.addAll(otherMoves);
+        return new ArrayList<>(allPossibleMoves);
     }
 
     private List<Location> convertToLocationList(List<Integer> integerLocationList) {

@@ -7,25 +7,19 @@ import java.util.List;
 /**
  * Created by YouthfulDrake on 31/03/2016.
  */
-public class GameState {
+public class Tracker {
 
-    private Location startingLocation;
-    private List<Move> moves;
-    private List<Route> possibleRoutes;
-    private Route currentRoute;
+    private static List<Route> possibleRoutes;
+    private static Route currentRoute;
 
-    public GameState(Location startingLocation, List<Move> moves) {
-        this.startingLocation = startingLocation;
-        this.moves = moves;
+    public static void track(Location startingLocation, List<Move> moves) {
         possibleRoutes = new ArrayList<>();
-    }
-
-    public void playOut() {
         currentRoute = new Route();
-        travel(startingLocation, moves, 0);
+        findPossibleRoutes(startingLocation, moves, 0);
+        printResult();
     }
 
-    private void travel(Location currentLocation, List<Move> moves, int moveNum) {
+    private static void findPossibleRoutes(Location currentLocation, List<Move> moves, int moveNum) {
         currentRoute.addStop(currentLocation);
         if (moveNum == moves.size()) {
             // Route is complete
@@ -41,19 +35,26 @@ public class GameState {
             return;
         }
         for (Location nextLocation : nextLocations) {
-            travel(nextLocation, moves, moveNum + 1);
+            findPossibleRoutes(nextLocation, moves, moveNum + 1);
         }
         currentRoute.removeLastStop();
     }
 
-    public void printResult() {
+    public static void printResult() {
         if (possibleRoutes.isEmpty()) {
             System.out.println("No possible routes");
         } else {
             Collections.sort(possibleRoutes);
+            Location prevLocation = null;
+            int locationCount = 0;
             for (Route route : possibleRoutes) {
+                if (!route.getFinalPosition().equals(prevLocation)) {
+                    locationCount++;
+                    prevLocation = route.getFinalPosition();
+                }
                 System.out.println(route);
             }
+            System.out.println(String.format("%d possible locations", locationCount));
         }
     }
 }
