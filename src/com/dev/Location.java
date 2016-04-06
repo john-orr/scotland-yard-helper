@@ -153,7 +153,7 @@ public enum Location {
     _136(136, Arrays.asList(119, 135, 162)),
     _137(137, Arrays.asList(123, 147)),
     _138(138, Arrays.asList(124, 150, 152)),
-    _139(138, Arrays.asList(130, 140, 153, 154)),
+    _139(139, Arrays.asList(130, 140, 153, 154)),
     _140(140, Arrays.asList(126, 132, 133, 139, 154, 156), Arrays.asList(82, 133, 154, 156),
             Arrays.asList(89, 128, 153)),
     _141(141, Arrays.asList(133, 134, 142, 158)),
